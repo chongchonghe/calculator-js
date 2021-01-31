@@ -2,7 +2,7 @@
 
 ** About
 
-I wrote [[https://github.com/chongchonghe/acap][a Python calculator for physicists]]. This is an atempt to write a browser-based calculator with similar features. 
+This is an atempt to write a browser-based calculator with similar features to a [[https://github.com/chongchonghe/acap][Python calculator for physicists]] that I wrote. 
 
 ** How to use?
 
