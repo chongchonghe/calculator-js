@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>math.js | basic usage</title>
+  <!-- <script src="https://unpkg.com/mathjs@7.1.0/dist/math.min.js"></script> -->
+  <script type='text/javascript' src="./math-v2.js"></script>
+  <script src="https://code.jquery.com/jquery-3.1.0.js"></script>
+  <script src="https://rawgit.com/RickStrahl/jquery-resizable/master/src/jquery-resizable.js"></script>
+  <style>
+    body {
+	max-width: 600px;
+	margin: auto;
+    }
+
+textarea{
+  border: none;
+  resize: none;
+  margin: 0pt;
+  width:100%;
+  /* height:100% */
+}
+
+.panel-container {
+  display: flex;
+  flex-direction: row;
+  border: 1px solid silver;
+  overflow: hidden;
+  
+  /* avoid browser level touch actions */
+  xtouch-action: none;
+}
+
+.panel-left {
+  flex: 0 0 auto;
+  /* only manually resize */
+ 
+  width: 300px;
+  min-height: 200px;
+  min-width: 20px;
+  white-space: nowrap;
+}
+
+.splitter {
+  flex: 0 0 auto;
+  width: 5px;  
+  /* background: url(https://raw.githubusercontent.com/RickStrahl/jquery-resizable/master/assets/vsizegrip.png) center center no-repeat #535353; */
+  min-height: 200px;
+  cursor: col-resize;  
+}
+
+.panel-right {
+  flex: 1 1 auto;
+  /* resizable */
+ 
+  width: 100%;
+  min-height: 200px;
+  min-width: 5000px;
+}
+
+  </style>
+</head>
+<body>
+
+<script>
+  function print(value) {
+    const precision = 4
+    document.write(math.format(value, precision) + '<br>')
+  }
+  function format(value) {
+    return math.format(value)
+  }
+
+  // // functions and constants
+  // print(math.round(math.e, 3))            // 2.718
+  // print(math.atan2(3, -3) / math.pi)      // 0.75
+  // print(math.log(10000, 10))              // 4
+  // print(math.sqrt(-4))                    // 2i
+  // print(math.pow([[-1, 2], [3, 1]], 2))   // [[7, 0], [0, 7]]
+  // print(math.derivative('x^2 + x', 'x'))  // 2 * x + 1
+  // print(math.derivative('x^2 + x', 'x'))  // 2 * x + 1
+
+  // // expressions
+  // print(math.evaluate('12 / (2.3 + 0.7)'))    // 4
+  // print(math.evaluate('12.7 cm to inch'))     // 5 inch
+  // print(math.evaluate('9 / 3 + 2i'))          // 3 + 2i
+  print(math.evaluate('a=1m\nb=2cm\na+b in cm'))  // -7
+
+  // // chained operations
+  // const a = math.chain(3)
+  //     .add(4)
+  //     .multiply(2)
+  //     .done()
+  // print(a)  // 14
+  // export const c = 234325435;
+
+  // const var1 = "a=3m\nb = 2cm\na b"
+  // var lines = var1.split('\n')
+  
+  // for(var i=0; i<lines.length; i++){
+  //   print(parser.evaluate(lines[i]))
+  // }
+  // parser.clear()
+  print(math.evaluate('1cm').toSI())  // -7
+
+  function display() {
+      var expr = document.getElementById("myInput").value;
+      var lines = expr.split("\n");
+      var output = document.getElementById("output");
+      output.innerHTML = "";
+      const parser = math.parser();
+      for(var i = 0; i < lines.length; i++){
+          if (lines[i] == ""){
+              continue;
+          }
+          // output.innerHTML += math.format(parser.evaluate(lines[i]).toCGS(), 14);
+          // output.innerHTML += parser.evaluate(lines[i]);
+
+	  // working in most browsers except IE (of course) and Edge (of course)
+	  // ref: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/includes and https://stackoverflow.com/questions/2430000/determine-if-string-is-in-list-in-javascript
+	  if (lines[i].split(' ').includes('in')) {
+              output.innerHTML += 'yes<br>'
+              output.innerHTML += parser.evaluate(lines[i]);
+	  }
+	  else {
+              output.innerHTML += 'no<br>'
+              output.innerHTML += parser.evaluate(lines[i]).toCGS();
+	  }
+          output.innerHTML += "<br>";
+      }
+      parser.clear();
+  }
+</script>
+
+<h2>JavaScript Calculator (Beta)</h2>
+
+<p>Input:</p>
+
+<div class="panel-container">
+  <div class="panel-left">
+    <textarea type="text" id="myInput">
+      G = gravitationConstant
+      Msun = 1.988409870698051e+33 g
+      au = 149597870700.0 m
+      sqrt(G Msun / au) in km/s
+    </textarea>
+  </div>
+  
+  <script>
+    var input = document.getElementById("myInput");
+    input.addEventListener("keyup", function(event) {
+	if (event.keyCode == 13) {
+            event.preventDefault();
+            document.getElementById("myBtn").click();
+	}
+    });
+  </script>
+  
+  <div class="splitter">
+  </div>
+  
+  <div class="panel-right">
+    <textarea type="text" id="output">
+  </div>
+</div>
+
+<br>
+<button type="button" id="myBtn" onclick="display()">Calculate</button>
+
+</body>
+</html>

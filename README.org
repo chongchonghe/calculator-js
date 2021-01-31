@@ -1,0 +1,24 @@
+* A physics calculator written in JavaScript
+
+** About
+
+I wrote [[https://github.com/chongchonghe/acap][a Python calculator for physicists]]. This is an atempt to write a browser-based calculator with similar features. 
+
+** How to use?
+
+Clone this repository and open index.html in your browser, or try it out [[https://www.astro.umd.edu/~chongchong/calculator/][here]].
+
+** Notes
+
+- math-v2.js: based on math.js, changes: added toCGS()
+- CGS: https://docs.astropy.org/en/stable/units/
+
+** To-do
+
+- [ ] toSI on scalar, or hasunit(). Check github issue response
+- [ ] test out toCGS
+- [ ] Define variable aliases: Msun, m_p, ... Write tables of constants.
+- [ ] bug: 'year' returns 's'
+- [ ] Add more units: pc, Mpc, yr, Myr, etc.
+- [ ] Long line wrap causes dis-alignment.
+- [ ] cgs for EM?
